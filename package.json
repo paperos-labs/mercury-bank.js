@@ -1,0 +1,33 @@
+{
+  "name": "mercury-demo",
+  "version": "0.1.0",
+  "description": "A simple demo of the Mercury API for submitting an Application & Verifying Webhooks",
+  "main": "mercury.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "npx jsdoc@3.x --configure ./jsdoc.conf.json --destination ./docs --package ./package.json --readme ./README.md --access all --private --recurse ./lib/",
+    "fmt": "npx -p prettier@2.x -- prettier -w '**/*.{js,md}'",
+    "lint": "npx -p typescript@4.x -- tsc -p ./jsconfig.json",
+    "prepublish": "npx -p jswt@1.x -- reexport"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/savvi-legal/mercury-api-demo-js.git"
+  },
+  "keywords": [
+    "mercury",
+    "bank",
+    "api",
+    "demo"
+  ],
+  "author": "AJ ONeal <coolaj86@gmail.com> (https://coolaj86.com)",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/savvi-legal/mercury-api-demo-js/issues"
+  },
+  "homepage": "https://github.com/savvi-legal/mercury-api-demo-js#readme",
+  "dependencies": {
+    "@root/request": "^1.9.2",
+    "dotenv": "^16.0.3"
+  }
+}
