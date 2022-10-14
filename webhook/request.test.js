@@ -22,6 +22,8 @@ let webhook = require("./request.js");
 
 let partnerId = process.env.MERCURY_PARTNER_ID;
 let webhookUrl = process.env.MERCURY_WEBHOOK_URL;
+console.info(`MERCURY_PARTNER_ID=` + "*".repeat(partnerId.length));
+console.info(`MERCURY_WEBHOOK_URL=${webhookUrl}`);
 
 async function main() {
   console.info("");
