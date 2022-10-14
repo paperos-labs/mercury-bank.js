@@ -104,6 +104,7 @@
   "*.js",
   "bin/**/*.js",
   "lib/**/*.js",
+  "webhook/**/*.js",
   "src/**/*.js"
 ],
   "exclude": ["node_modules"]
