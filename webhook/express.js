@@ -73,7 +73,7 @@ module.exports = function _createMercuryVerify(partnerId, opts = {}) {
     ) {
       //@ts-ignore
       req[opts.mercuryParam] = Promise.resolve(
-        mercuryHmac.verifySync(partnerId, "", untrustedHexSig)
+        mercuryHmac.verifySync(partnerId, "", "", untrustedHexSig)
       );
       next();
       return;
