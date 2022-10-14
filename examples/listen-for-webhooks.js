@@ -2,7 +2,7 @@
 
 let PORT = process.env.NODE || 6372; // MERC
 
-let Http = require("http");
+let Http = require("node:http");
 
 let Mercury = require("../webhook");
 
@@ -17,12 +17,16 @@ let mercury = Mercury.middleware(partnerId);
 
 app.use("/api/webhooks/mercury", mercury);
 app.use("/api", bodyParser.json());
-app.post("/api/webhooks/mercury", mercury.verify, function (req, res, next) {
-  console.info("✅ Valid signature");
-  console.info(req.headers["mercury-signature"]);
-  console.info(req.body);
-  res.json({ message: "valid signature" });
-});
+app.post(
+  "/api/webhooks/mercury",
+  mercury.verify,
+  async function (req, res, next) {
+    console.info("✅ Valid signature");
+    console.info(req.headers["mercury-signature"]);
+    console.info(req.body);
+    res.json({ message: "valid signature" });
+  }
+);
 app.use("/api/webhooks/mercury", function (err, req, res, next) {
   console.error("❌ Invalid signature");
   console.error(req.headers["mercury-signature"]);

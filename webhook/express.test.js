@@ -1,7 +1,8 @@
 "use strict";
 
-let Fs = require("fs");
-let Stream = require("stream");
+let Fs = require("node:fs/promises");
+let FsSync = require("node:fs");
+let Stream = require("node:stream");
 
 let Middleware = require("./express.js");
 let HMAC = require("./hmac.js");
@@ -50,12 +51,12 @@ async function main() {
   let partnerId = "secret";
   let middleware = Middleware(partnerId);
   let ts = "12091212890";
-  let sig = HMAC.signSync(partnerId, ts, Fs.readFileSync(__filename, "utf8"));
+  let sig = HMAC.signSync(partnerId, ts, await Fs.readFile(__filename, "utf8"));
   // test that unverified signature fails
   // faux request as file stream
   /** @type {import('express').Request} */
   //@ts-ignore
-  let req = Fs.createReadStream(__filename);
+  let req = FsSync.createReadStream(__filename);
   // add required headers
   req.method = "POST";
   req.headers = {
@@ -93,7 +94,7 @@ async function main() {
 
   // test that verified signature passes
   //@ts-ignore
-  req = Fs.createReadStream(__filename);
+  req = FsSync.createReadStream(__filename);
   // add required headers
   req.method = "POST";
   req.headers = {

@@ -1,6 +1,6 @@
 "use strict";
 
-let crypto = require("crypto");
+let crypto = require("node:crypto");
 
 let HMAC = module.exports;
 

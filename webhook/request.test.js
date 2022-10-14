@@ -17,6 +17,7 @@ if (!process.env.MERCURY_PARTNER_ID) {
   process.exit(1);
 }
 
+let request = require("@root/request");
 let webhook = require("./request.js");
 
 let partnerId = process.env.MERCURY_PARTNER_ID;
@@ -24,6 +25,19 @@ let webhookUrl = process.env.MERCURY_WEBHOOK_URL;
 
 async function main() {
   console.info("");
+
+  process.stdout.write("* Should NOT allow missing signature... ");
+  await request({
+    url: webhookUrl,
+    json: {
+      event: "approved",
+      onboardingDataId: "9e1618ca-fd68-11ec-9855-132369fb0225",
+      accountStatus: "approved",
+      accountNumber: "182812819",
+      routingNumber: "021000029",
+    },
+  }).then(mustFail);
+  console.info("Pass");
 
   process.stdout.write("* Should NOT allow bad partner id... ");
   await webhook("bad-partner-id", webhookUrl, {
