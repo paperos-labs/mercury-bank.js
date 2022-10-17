@@ -1,0 +1,52 @@
+{
+  "about": {
+    "legalBusinessName": "ACME, Inc",
+    "website": "acme.com",
+    "industry": "mercury_consulting",
+    "countryOfOperation": "US",
+    "description": "We're a company that makes everything.",
+    "operations": "LocalBusiness"
+  },
+  "businessContactDetails": {
+    "address1": "123 Sesame St",
+    "address2": "Big Bird's House",
+    "city": " New York City",
+    "state": "NY",
+    "postalCode": "10023",
+    "phoneNumber": "+15555551234"
+  },
+  "beneficialOwners": [
+    {
+      "firstName": "Big",
+      "lastName": "Bird",
+      "jobTitle": "Other",
+      "email": "CHANGE_ME@EXAMPLE.COM",
+      "percentOwnership": 100,
+      "citizenshipStatus": "USCitizen",
+      "identificationType": "DriversLicense",
+      "address1": "123 Sesame St",
+      "city": " New York City",
+      "state": "NY",
+      "country": "US",
+      "postalCode": "10023",
+      "phoneNumber": "+15555552345",
+      "isPep": "IsPep",
+      "otherJobTitle": "Owner",
+      "dateOfBirth": "1969-11-10",
+      "identificationBlob": "data:image/jpeg;name=${urlIdFilename};base64,${idDoc64}"
+    }
+  ],
+  "formationDetails": {
+    "companyStructure": "LLC",
+    "federalEin": "12-3456789",
+    "formationDocumentType": "OtherBusinessDocumentation",
+    "formationDocumentFileBlob": "data:application/pdf;name=${urlBizFilename};base64,${bizDoc64}",
+    "eINDocumentFileBlob": "data:application/pdf;name=${urlEinFilename};base64,${einDoc64}"
+  },
+  "businessDetails": {
+    "USOperations": "We provide consulting services to US customers.",
+    "WebPresence": "https://github.com/acme/, https://www.linkedin.com/company/acme",
+    "InvalidWebsite": "https://acme.com/"
+  },
+  "inviteEmail": "CHANGE_ME@EXAMPLE.COM"
+}
