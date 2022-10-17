@@ -1,8 +1,8 @@
 {
-  "name": "mercury-demo",
+  "name": "mercury-bank",
   "version": "0.1.0",
   "description": "A simple demo of the Mercury API for submitting an Application & Verifying Webhooks",
-  "main": "mercury.js",
+  "main": "index.js",
   "scripts": {
     "test": "node webhook/hmac.test.js; node webhook/express.test.js",
     "doc": "npx jsdoc@3.x --configure ./jsdoc.conf.json --destination ./docs --package ./package.json --readme ./README.md --access all --private --recurse ./lib/",
