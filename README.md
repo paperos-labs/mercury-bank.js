@@ -11,7 +11,24 @@ npm install --save mercury-bank
 
 ## Application
 
+If you already have a fair amount of information about your user's business, you
+can use that to create a partner sign-up link and get notified of the user's
+routing and account number when the process completes.
+
 See <https://docs.mercury.com/reference/submit-onboarding-data>.
+
+Example:
+
+```txt
+https://mercury.com/signup?alphaCode=AcmeInc-XXXXXX
+```
+
+```json
+{
+  "signupLink": "https://mercury.com/signup?alphaCode=AcmeInc-XXXXXX",
+  "onboardingDataId": "00000000-4800-0000-0000-000000000000"
+}
+```
 
 ## Validating Webhooks
 

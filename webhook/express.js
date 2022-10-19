@@ -18,12 +18,12 @@ function createError(msg) {
 }
 
 /**
- * @param {String} partnerId - the shared secret for HMAC 256
+ * @param {String} partnerSecret - the shared secret for HMAC 256
  * @param {Object} [opts]
  * @param {String} [opts.mercuryParam]
  * @param {Boolean} [opts.allowUnsignedGet] - for unsigned uptime check
  */
-module.exports = function _createMercuryVerify(partnerId, opts = {}) {
+module.exports = function _createMercuryVerify(partnerSecret, opts = {}) {
   if (!("allowUnsignedGet" in opts)) {
     opts = { allowUnsignedGet: false };
   }
@@ -73,7 +73,7 @@ module.exports = function _createMercuryVerify(partnerId, opts = {}) {
     ) {
       //@ts-ignore
       req[opts.mercuryParam] = Promise.resolve(
-        mercuryHmac.verifySync(partnerId, "", "", untrustedHexSig)
+        mercuryHmac.verifySync(partnerSecret, "", "", untrustedHexSig)
       );
       next();
       return;
@@ -82,7 +82,7 @@ module.exports = function _createMercuryVerify(partnerId, opts = {}) {
     // signature + content body
     //@ts-ignore
     req[opts.mercuryParam] = mercuryHmac
-      .verify(partnerId, parts.t, req, untrustedHexSig)
+      .verify(partnerSecret, parts.t, req, untrustedHexSig)
       .catch(function () {
         // we ignore this error because we expect stream errors to be handled by
         // a bodyParser

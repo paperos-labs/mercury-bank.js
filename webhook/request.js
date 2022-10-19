@@ -6,14 +6,14 @@ let request = require("@root/request");
 
 /**
  * Creates a testable signed webhook, exactly as if from Mercury
- * @param {String} partnerId - the HMAC shared secret
+ * @param {String} partnerSecret - the HMAC shared secret
  * @param {String} webhookUrl - the request url
  * @param {Object} json - { event, onboardingDataId, accountStatus, ... }
  */
-module.exports = async function (partnerId, webhookUrl, json) {
+module.exports = async function (partnerSecret, webhookUrl, json) {
   let t = Math.floor(Date.now() / 1000).toString();
   let bodyStr = JSON.stringify(json);
-  let sig = HMAC.signSync(partnerId, t, bodyStr);
+  let sig = HMAC.signSync(partnerSecret, t, bodyStr);
   let url = new URL(webhookUrl);
 
   let resp = await request({

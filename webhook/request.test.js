@@ -10,9 +10,9 @@ if (!process.env.MERCURY_WEBHOOK_URL) {
   process.exit(1);
 }
 
-if (!process.env.MERCURY_PARTNER_ID) {
+if (!process.env.MERCURY_PARTNER_SECRET) {
   console.error(
-    "You must set MERCURY_PARTNER_ID to use for HMAC signature in your ENVs or .env.secret"
+    "You must set MERCURY_PARTNER_SECRET to use for HMAC signature in your ENVs or .env.secret"
   );
   process.exit(1);
 }
@@ -20,9 +20,9 @@ if (!process.env.MERCURY_PARTNER_ID) {
 let request = require("@root/request");
 let webhook = require("./request.js");
 
-let partnerId = process.env.MERCURY_PARTNER_ID;
+let partnerSecret = process.env.MERCURY_PARTNER_SECRET;
 let webhookUrl = process.env.MERCURY_WEBHOOK_URL;
-console.info(`MERCURY_PARTNER_ID=` + "*".repeat(partnerId.length));
+console.info(`MERCURY_PARTNER_SECRET=` + "*".repeat(partnerSecret.length));
 console.info(`MERCURY_WEBHOOK_URL=${webhookUrl}`);
 
 async function main() {
@@ -52,21 +52,21 @@ async function main() {
   console.info("Pass");
 
   process.stdout.write("* Testing 'application_submitted'... ");
-  await webhook(partnerId, webhookUrl, {
+  await webhook(partnerSecret, webhookUrl, {
     event: "application_submitted",
     onboardingDataId: "9e1618ca-fd68-11ec-9855-132369fb0225",
   }).then(mustOk);
   console.info("Pass");
 
   process.stdout.write("* Testing 'information_requested'... ");
-  await webhook(partnerId, webhookUrl, {
+  await webhook(partnerSecret, webhookUrl, {
     event: "information_requested",
     onboardingDataId: "9e1618ca-fd68-11ec-9855-132369fb0225",
   }).then(mustOk);
   console.info("Pass");
 
   process.stdout.write("* Testing 'approved'... ");
-  await webhook(partnerId, webhookUrl, {
+  await webhook(partnerSecret, webhookUrl, {
     event: "approved",
     onboardingDataId: "9e1618ca-fd68-11ec-9855-132369fb0225",
     accountStatus: "approved",
@@ -76,7 +76,7 @@ async function main() {
   console.info("Pass");
 
   process.stdout.write("* Testing <undefined> (rejected)... ");
-  await webhook(partnerId, webhookUrl, {
+  await webhook(partnerSecret, webhookUrl, {
     event: undefined, // TODO shouldn't this be defined?
     onboardingDataId: "9e1618ca-fd68-11ec-9855-132369fb0225",
     accountStatus: "rejected",

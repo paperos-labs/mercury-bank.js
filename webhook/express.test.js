@@ -48,10 +48,14 @@ async function main() {
     });
   }
 
-  let partnerId = "secret";
-  let middleware = Middleware(partnerId);
+  let partnerSecret = "secret";
+  let middleware = Middleware(partnerSecret);
   let ts = "12091212890";
-  let sig = HMAC.signSync(partnerId, ts, await Fs.readFile(__filename, "utf8"));
+  let sig = HMAC.signSync(
+    partnerSecret,
+    ts,
+    await Fs.readFile(__filename, "utf8")
+  );
   // test that unverified signature fails
   // faux request as file stream
   /** @type {import('express').Request} */

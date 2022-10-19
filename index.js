@@ -6,18 +6,18 @@ module.exports = require("./lib/mercury-bank.js")
 
 // these typedef reexports will be available to dependent packages
 /**
- * @typedef {import('./lib/mercury.js').CitizenshipStatusOption} CitizenshipStatusOption
- * @typedef {import('./lib/mercury.js').CompanyStructureOption} CompanyStructureOption
- * @typedef {import('./lib/mercury.js').FormationDocumentTypeOption} FormationDocumentTypeOption
- * @typedef {import('./lib/mercury.js').IdentificationTypeOption} IdentificationTypeOption
- * @typedef {import('./lib/mercury.js').IndustryOption} IndustryOption
- * @typedef {import('./lib/mercury.js').JobTitleOption} JobTitleOption
- * @typedef {import('./lib/mercury.js').OperationsOption} OperationsOption
- * @typedef {import('./lib/mercury.js').PepOption} PepOption
- * @typedef {import('./lib/mercury.js').Application} Application
- * @typedef {import('./lib/mercury.js').BusinessAbout} BusinessAbout
- * @typedef {import('./lib/mercury.js').BusinessContact} BusinessContact
- * @typedef {import('./lib/mercury.js').BusinessFormation} BusinessFormation
- * @typedef {import('./lib/mercury.js').BusinessDetails} BusinessDetails
- * @typedef {import('./lib/mercury.js').BusinessOwner} BusinessOwner
+ * @typedef {import('./lib/mercury-bank.js').CitizenshipStatusOption} CitizenshipStatusOption
+ * @typedef {import('./lib/mercury-bank.js').CompanyStructureOption} CompanyStructureOption
+ * @typedef {import('./lib/mercury-bank.js').FormationDocumentTypeOption} FormationDocumentTypeOption
+ * @typedef {import('./lib/mercury-bank.js').IdentificationTypeOption} IdentificationTypeOption
+ * @typedef {import('./lib/mercury-bank.js').IndustryOption} IndustryOption
+ * @typedef {import('./lib/mercury-bank.js').JobTitleOption} JobTitleOption
+ * @typedef {import('./lib/mercury-bank.js').OperationsOption} OperationsOption
+ * @typedef {import('./lib/mercury-bank.js').PepOption} PepOption
+ * @typedef {import('./lib/mercury-bank.js').Application} Application
+ * @typedef {import('./lib/mercury-bank.js').BusinessAbout} BusinessAbout
+ * @typedef {import('./lib/mercury-bank.js').BusinessContact} BusinessContact
+ * @typedef {import('./lib/mercury-bank.js').BusinessFormation} BusinessFormation
+ * @typedef {import('./lib/mercury-bank.js').BusinessDetails} BusinessDetails
+ * @typedef {import('./lib/mercury-bank.js').BusinessOwner} BusinessOwner
  */

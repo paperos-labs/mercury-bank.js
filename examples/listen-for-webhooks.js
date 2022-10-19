@@ -12,8 +12,8 @@ let express = require("express");
 let app = express.Router();
 let server = express();
 
-let partnerId = "demo-partner-id";
-let mercury = Mercury.middleware(partnerId);
+let partnerSecret = "demo-partner-base64-encoded-secret";
+let mercury = Mercury.middleware(partnerSecret);
 
 app.use("/api/webhooks/mercury", mercury);
 app.use("/api", bodyParser.json());
@@ -45,6 +45,6 @@ httpServer.listen(PORT, function () {
   console.info(
     `export MERCURY_WEBHOOK_URL=http://localhost:${PORT}/api/webhooks/mercury`
   );
-  console.info(`export MERCURY_PARTNER_ID=${partnerId}`);
+  console.info(`export MERCURY_PARTNER_SECRET=${partnerSecret}`);
   console.info("");
 });

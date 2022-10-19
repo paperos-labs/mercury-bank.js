@@ -9,12 +9,12 @@ async function main() {
 
   // Stream mini-test
   process.stdout.write("* (Stream) Signatures match: ");
-  let partnerId = "secret";
+  let partnerSecret = "secret";
   let stream1 = FsSync.createReadStream(__filename);
   let stream2 = FsSync.createReadStream(__filename);
   let ts = "12091212890";
-  let sig1 = await HMAC.sign(partnerId, ts, stream1);
-  if (!(await HMAC.verify(partnerId, ts, stream2, sig1))) {
+  let sig1 = await HMAC.sign(partnerSecret, ts, stream1);
+  if (!(await HMAC.verify(partnerSecret, ts, stream2, sig1))) {
     throw Error("[SANITY FAIL] cannot HMAC.verify self (stream)");
   }
   console.info("Pass (duh!) 🙃");
@@ -22,8 +22,8 @@ async function main() {
   // Sync mini-test
   process.stdout.write("* (Sync) Signatures also match, as expected: ");
   let utf8str = FsSync.readFileSync(__filename, "utf8");
-  let sigB = HMAC.signSync(partnerId, ts, utf8str);
-  if (!HMAC.verifySync(partnerId, ts, utf8str, sigB)) {
+  let sigB = HMAC.signSync(partnerSecret, ts, utf8str);
+  if (!HMAC.verifySync(partnerSecret, ts, utf8str, sigB)) {
     throw Error("[SANITY FAIL] cannot HMAC.verify self (sync)");
   }
   console.info("Pass");

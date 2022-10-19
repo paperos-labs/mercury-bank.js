@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 
 require("dotenv").config({ path: ".env" });
@@ -25,9 +26,25 @@ async function main() {
   let applicationTxt = await Fs.readFile(applicationPath, "utf8");
   /** @type {Mercury.Application} */
   let application = JSON.parse(applicationTxt);
+  await readFilesIntoApplication(application);
 
+  console.log(JSON.stringify(application, null, 2));
+  return;
+
+  /*
+  let response = await mercury.apply(application);
+  console.log(response.statusCode);
+  console.log(response.headers);
+  console.log(response.body);
+  */
+}
+
+/**
+ * @param {Mercury.Application} application
+ */
+async function readFilesIntoApplication(application) {
   // TODO Mercury.readBlobs
-  application.beneficialOwners.reduce(async function (promise, owner) {
+  await application.beneficialOwners.reduce(async function (promise, owner) {
     await promise;
 
     owner.identificationBlob = await readBlob(
@@ -48,9 +65,6 @@ async function main() {
     "formationDetails.eINDocumentFileBlob",
     application.about.legalBusinessName
   );
-
-  let response = await mercury.apply(application);
-  console.log(response);
 }
 
 /**
@@ -75,15 +89,15 @@ async function readBlob(filepath, tplpath, id) {
 
   let mime;
   switch (ext) {
-    case "jpg":
+    case ".jpg":
     /*falls through*/
-    case "jpeg":
+    case ".jpeg":
       mime = "image/jpeg";
       break;
-    case "pdf":
+    case ".pdf":
       mime = "application/pdf";
       break;
-    case "png":
+    case ".png":
       mime = "image/pdf";
       break;
     default:
@@ -95,8 +109,9 @@ async function readBlob(filepath, tplpath, id) {
   let buf = await Fs.readFile(filepath);
   let blob = buf.toString("base64");
 
-  // Ex: data:application/pdf;name=${urlEinFilename};base64,${einDoc64}
-  return `data:${mime};name=${filename};base64,${blob}`;
+  // Ex: data:application/pdf;name=Federal%20EIN.pdf;base64,${einDoc64}
+  let urlFilename = encodeURIComponent(filename);
+  return `data:${mime};name=${urlFilename};base64,${blob}`;
 }
 
 main()
