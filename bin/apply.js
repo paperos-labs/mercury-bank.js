@@ -14,6 +14,7 @@ let Path = require("node:path");
 
 async function main() {
   let args = process.argv.slice(2);
+  let dryRun = removeFlag(args, ["--dry-run"]);
   let applicationPath = args[0];
   if (!applicationPath) {
     throw new Error(`\n\nUsage:\n    apply ./path/to/application.json\n\n`);
@@ -28,15 +29,39 @@ async function main() {
   let application = JSON.parse(applicationTxt);
   await readFilesIntoApplication(application);
 
-  console.log(JSON.stringify(application, null, 2));
-  return;
+  if (dryRun) {
+    application = mercury._complete(application);
+    console.info(JSON.stringify(application, null, 2));
+    return;
+  }
 
-  /*
   let response = await mercury.apply(application);
-  console.log(response.statusCode);
-  console.log(response.headers);
-  console.log(response.body);
-  */
+  console.info(response.statusCode);
+  console.info(JSON.stringify(response.headers, null, 2));
+  console.info(JSON.stringify(response.body, null, 2));
+}
+
+/**
+ * @param {Array<String>} args
+ * @param {Array<String>} names
+ */
+function removeFlag(args, names) {
+  let val = false;
+  let i = -1;
+  names.forEach(function (name) {
+    let index = args.indexOf(name);
+    if (index >= 0) {
+      if (val) {
+        throw new Error(`duplicate '${name}' of '${names}'`);
+      }
+      i = index;
+      val = true;
+    }
+  });
+  if (i >= 0) {
+    args.splice(i, 1);
+  }
+  return val;
 }
 
 /**
