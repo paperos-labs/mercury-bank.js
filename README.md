@@ -9,19 +9,54 @@ Webhooks
 npm install --save mercury-bank
 ```
 
-## Application
+## Partner ID & Secret
 
-If you already have a fair amount of information about your user's business, you
-can use that to create a partner sign-up link and get notified of the user's
-routing and account number when the process completes.
+You'll need to contact Mercury to get your Partner ID and Secret.
 
-See <https://docs.mercury.com/reference/submit-onboarding-data>.
+#### Partner ID
+
+The Partner ID will be a URL-safe version of your company name.
 
 Example:
 
 ```txt
-https://mercury.com/signup?alphaCode=AcmeInc-XXXXXX
+AcmeInc
 ```
+
+#### Partner Secret
+
+The Partner Secret will be a Base64 (non-url-safe) 33 byte array.
+
+Example:
+
+```txt
+zuud7+978BTnEXQvgTETaX+goDIii/PHu4Sgw/Sg+kYO
+```
+
+#### GPG Encrypting / Decrypting
+
+Mercury may ask you to provide a GPG Public Key in order to send you an
+encrypted secret.
+
+You can use [`gpg-pubkey`](https://webinstall.dev/gpg-pubkey) to do that:
+
+- https://webinstall.dev/gpg-pubkey
+
+When you get back the encrypted secret, you can decrypt it like this:
+
+```sh
+gpg --output ./mercury-partner-secret.txt --decrypt ~/Downloads/partner-secret.enc
+```
+
+## Application
+
+Using your _Partner ID_ (ex: "AcmeInc") you can create **sign-up links** to
+_partially-completed_ Mercury applications for your users.
+
+See <https://docs.mercury.com/reference/submit-onboarding-data>.
+
+The response you'll get back will have a **Sign Up Link** and an **Application
+ID**, which looks like this:
 
 ```json
 {
@@ -30,9 +65,19 @@ https://mercury.com/signup?alphaCode=AcmeInc-XXXXXX
 }
 ```
 
+If the user completes the application you'll get back a number of possible
+webhooks as described in the docs above.
+
+If all goes well you'll get the **Routing Number** and **Account Number** in the
+final webhook.
+
 ## Validating Webhooks
 
-Mercury's webhooks must be validated with **two** middleware:
+Your **Partner Secret** (ex: "zu+...kYO") is used for validating Mercury
+webhooks.
+
+Since the validation is performed on the **raw bytes** of the request, the
+process is split into **two middleware**:
 
 - the first performs _raw_ byte hashing (_before_ JSON parsing)
 - the second verifies the hash
@@ -44,8 +89,9 @@ Example:
 ```js
 let Mercury = require("mercury-bank/webhook");
 
-let partnerId = process.env.MERCURY_PARTNER_ID || "demo-partner-id";
-let mercury = Mercury.middleware(partnerId);
+let partnerSecret =
+  process.env.MERCURY_PARTNER_SECRET || "demo-partner-base64-encoded-secret";
+let mercury = Mercury.middleware(partnerSecret);
 
 app.use("/api/webhooks/mercury", mercury);
 app.use("/api", bodyParser.json());
