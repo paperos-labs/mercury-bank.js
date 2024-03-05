@@ -15,7 +15,12 @@ module.exports = require("./lib/mercury-bank.js")
  * @typedef {import('./lib/mercury-bank.js').OperationsOption} OperationsOption
  * @typedef {import('./lib/mercury-bank.js').PepOption} PepOption
  * @typedef {import('./lib/mercury-bank.js').Application} Application
+ * @typedef {import('./lib/mercury-bank.js').ApplicationPublic} ApplicationPublic
+ * @typedef {import('./lib/mercury-bank.js').ApplicationInternal} ApplicationInternal
+ * @typedef {import('./lib/mercury-bank.js').ApplicationType} ApplicationType
+ * @typedef {import('./lib/mercury-bank.js').ApplicationResult} ApplicationResult
  * @typedef {import('./lib/mercury-bank.js').BusinessAbout} BusinessAbout
+ * @typedef {import('./lib/mercury-bank.js').BusinessAddress} BusinessAddress
  * @typedef {import('./lib/mercury-bank.js').BusinessContact} BusinessContact
  * @typedef {import('./lib/mercury-bank.js').BusinessFormation} BusinessFormation
  * @typedef {import('./lib/mercury-bank.js').BusinessDetails} BusinessDetails
