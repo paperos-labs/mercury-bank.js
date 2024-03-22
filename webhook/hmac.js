@@ -12,6 +12,7 @@ let HMAC = module.exports;
  */
 async function sign(partnerSecret, ts, rstream) {
   let hmac = crypto.createHmac("sha256", partnerSecret);
+
   hmac.update(`${ts}.`);
   await new Promise(function (resolve, reject) {
     rstream.pipe(hmac);
@@ -19,7 +20,10 @@ async function sign(partnerSecret, ts, rstream) {
     // 'end' should always fire, even if 'finished' or 'close' don't
     rstream.once("end", resolve);
   });
-  return hmac.read().toString("hex");
+
+  let sigBuf = hmac.read();
+  let sigHex = sigBuf.toString("hex");
+  return sigHex;
 }
 
 /**
@@ -31,6 +35,9 @@ async function sign(partnerSecret, ts, rstream) {
  */
 async function verify(partnerSecret, ts, rstream, hexSig) {
   let sig2 = await sign(partnerSecret, ts, rstream);
+  if (!hexSig.length) {
+    return false;
+  }
   if (hexSig.length !== sig2.length) {
     return false;
   }
@@ -46,7 +53,9 @@ async function verify(partnerSecret, ts, rstream, hexSig) {
 function signSync(partnerSecret, ts, utf8str) {
   let hmac = crypto.createHmac("sha256", partnerSecret);
   hmac.update(`${ts}.${utf8str}`);
-  return hmac.digest("hex");
+  let sigHex = hmac.digest("hex");
+
+  return sigHex;
 }
 
 /**
@@ -58,9 +67,13 @@ function signSync(partnerSecret, ts, utf8str) {
  */
 function verifySync(partnerSecret, ts, utf8str, hexSig) {
   let sig2 = signSync(partnerSecret, ts, utf8str);
+  if (!hexSig.length) {
+    return false;
+  }
   if (hexSig.length !== sig2.length) {
     return false;
   }
+
   return crypto.timingSafeEqual(Buffer.from(hexSig), Buffer.from(sig2));
 }
 

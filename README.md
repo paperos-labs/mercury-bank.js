@@ -87,21 +87,25 @@ See [examples/listen-for-webhooks.js](/examples/listen-for-webhooks.js).
 Example:
 
 ```js
-let Mercury = require("mercury-bank/webhook");
+let Mercury = require("@paperos/mercury-bank/webhook");
 
 let partnerSecret =
   process.env.MERCURY_PARTNER_SECRET || "demo-partner-base64-encoded-secret";
 let mercury = Mercury.middleware(partnerSecret);
 
 // MUST come before JSON parser due to *exact* byte hash comparison
-app.use("/api/webhooks/mercury", mercury);
+app.use("/api/webhooks/mercury", mercury.pipeRequestBody);
 app.use("/api", bodyParser.json());
 
-app.post("/api/webhooks/mercury", mercury.verify, function (req, res, next) {
-  console.info("✅ Valid signature");
-  console.info(req.body.accountStatus);
-  res.json({ success: true });
-});
+app.post(
+  "/api/webhooks/mercury",
+  mercury.verifySignature,
+  function (req, res, next) {
+    console.info("✅ Valid signature");
+    console.info(req.body.accountStatus);
+    res.json({ success: true });
+  }
+);
 
 // Error handler
 app.use("/api/webhooks/mercury", function (err, req, res, next) {

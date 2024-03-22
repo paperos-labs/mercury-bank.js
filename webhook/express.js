@@ -31,8 +31,10 @@ module.exports = function _createMercuryVerify(partnerSecret, opts = {}) {
     opts.mercuryParam = "_mercurySignaturePromise";
   }
 
+  let verifier = {};
+
   /** @type import('express').Handler */
-  let verifier = async function _mercuryVerify(req, res, next) {
+  verifier.pipeRequestBody = async function _mercuryPipe(req, res, next) {
     if (req.body) {
       next(
         createError(
@@ -91,28 +93,26 @@ module.exports = function _createMercuryVerify(partnerSecret, opts = {}) {
     next();
   };
 
-  //@ts-ignore
-  verifier.verify =
-    /** @type import('express').Handler */
-    async function (req, res, next) {
-      //@ts-ignore
-      let result = await req[opts.mercuryParam];
-      if (true === result) {
-        next();
-        return;
-      }
+  /** @type import('express').Handler */
+  verifier.verifySignature = async function (req, res, next) {
+    //@ts-ignore
+    let result = await req[opts.mercuryParam];
+    if (true === result) {
+      next();
+      return;
+    }
 
-      if (
-        opts.allowUnsignedGet &&
-        "GET" === req.method &&
-        !req.headers["mercury-signature"]
-      ) {
-        next();
-        return;
-      }
+    if (
+      opts.allowUnsignedGet &&
+      "GET" === req.method &&
+      !req.headers["mercury-signature"]
+    ) {
+      next();
+      return;
+    }
 
-      next(createError(mismatchSignature));
-    };
+    next(createError(mismatchSignature));
+  };
 
   return verifier;
 };

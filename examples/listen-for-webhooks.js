@@ -15,11 +15,11 @@ let server = express();
 let partnerSecret = "demo-partner-base64-encoded-secret";
 let mercury = Mercury.middleware(partnerSecret);
 
-app.use("/api/webhooks/mercury", mercury);
+app.use("/api/webhooks/mercury", mercury.pipeRequestBody);
 app.use("/api", bodyParser.json());
 app.post(
   "/api/webhooks/mercury",
-  mercury.verify,
+  mercury.verifySignature,
   async function (req, res, next) {
     console.info("✅ Valid signature");
     console.info(req.headers["mercury-signature"]);
