@@ -1,4 +1,4 @@
-# [mercury-bank](https://github.com/savvi-legal/mercury-bank.js)
+# [mercury-bank](https://github.com/paperos-labs/mercury-bank.js)
 
 A simple demo of the Mercury API for submitting an Application &amp; Verifying
 Webhooks
@@ -6,7 +6,7 @@ Webhooks
 ## Install
 
 ```sh
-npm install --save mercury-bank
+npm install --save @paperos/mercury-bank
 ```
 
 ## Partner ID & Secret
@@ -93,6 +93,7 @@ let partnerSecret =
   process.env.MERCURY_PARTNER_SECRET || "demo-partner-base64-encoded-secret";
 let mercury = Mercury.middleware(partnerSecret);
 
+// MUST come before JSON parser due to *exact* byte hash comparison
 app.use("/api/webhooks/mercury", mercury);
 app.use("/api", bodyParser.json());
 
@@ -102,6 +103,7 @@ app.post("/api/webhooks/mercury", mercury.verify, function (req, res, next) {
   res.json({ success: true });
 });
 
+// Error handler
 app.use("/api/webhooks/mercury", function (err, req, res, next) {
   console.error("❌ Invalid signature");
   res.statusCode = 400;

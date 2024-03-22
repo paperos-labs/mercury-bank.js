@@ -1,5 +1,5 @@
 {
-  "name": "mercury-bank",
+  "name": "@paperos/mercury-bank",
   "version": "0.1.0",
   "description": "A simple demo of the Mercury API for submitting an Application & Verifying Webhooks",
   "main": "index.js",
@@ -18,20 +18,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/savvi-legal/mercury-api-demo-js.git"
+    "url": "git+https://github.com/paperos-labs/mercury-bank.git"
   },
   "keywords": [
     "mercury",
     "bank",
-    "api",
-    "demo"
+    "application",
+    "webhook"
   ],
-  "author": "AJ ONeal <coolaj86@gmail.com> (https://coolaj86.com)",
+  "author": "AJ ONeal <aj@therootcompany.com> (https://paperos.com)",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/savvi-legal/mercury-api-demo-js/issues"
+    "url": "https://github.com/paperos-labs/mercury-bank/issues"
   },
-  "homepage": "https://github.com/savvi-legal/mercury-api-demo-js#readme",
+  "homepage": "https://github.com/paperos-labs/mercury-bank#readme",
   "dependencies": {
     "@root/request": "^1.9.2"
   },
