@@ -61,7 +61,7 @@ ID**, which looks like this:
 ```json
 {
   "signupLink": "https://mercury.com/signup?alphaCode=AcmeInc-XXXXXX",
-  "onboardingDataId": "00000000-4800-0000-0000-000000000000"
+  "onboardingDataId": "00000000-0000-1000-0000-000000000000"
 }
 ```
 
@@ -113,4 +113,37 @@ app.use("/api/webhooks/mercury", function (err, req, res, next) {
   res.statusCode = 400;
   res.json({ error: "invalid signature" });
 });
+```
+
+### Webhook Events
+
+```json
+{
+  "event": "application_submitted",
+  "onboardingDataId": "00000000-0000-1000-0000-000000000000"
+}
+```
+
+```json
+{
+  "event": "information_requested",
+  "onboardingDataId": "00000000-0000-1000-0000-000000000000"
+}
+```
+
+```json
+{
+  "event": "approved",
+  "onboardingDataId": "00000000-0000-1000-0000-000000000000",
+  "accountStatus": "approved",
+  "accountNumber": "123456789",
+  "routingNumber": "555555555"
+}
+```
+
+```json
+{
+  "onboardingDataId": "00000000-0000-1000-0000-000000000000",
+  "accountStatus": "rejected"
+}
 ```
