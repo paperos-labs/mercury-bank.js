@@ -99,6 +99,10 @@ async function readFilesIntoApplication(application) {
  * @returns {Promise<String>}
  */
 async function readBlob(filepath, tplpath, id) {
+  if (!filepath) {
+    return "";
+  }
+
   if (filepath.startsWith("data:")) {
     // actually the full blob
     return filepath;
