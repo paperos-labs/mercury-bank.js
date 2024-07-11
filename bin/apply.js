@@ -93,24 +93,31 @@ async function readFilesIntoApplication(application) {
 }
 
 /**
- * @param {String} filepath - full file path and name
+ * @param {String} filepathOrBase64 - full file path and name, or base64-encoded file
  * @param {String} tplpath - the accessor path of the value
  * @param {String} id - what the file is for
  * @returns {Promise<String>}
  */
-async function readBlob(filepath, tplpath, id) {
-  if (!filepath) {
+async function readBlob(filepathOrBase64, tplpath, id) {
+  if (!filepathOrBase64) {
     return "";
   }
 
-  if (filepath.startsWith("data:")) {
+  if (filepathOrBase64.startsWith("data:")) {
     // actually the full blob
-    return filepath;
+    let dataUriPrefixRe = /^data:.*;base64,/;
+    let base64 = filepathOrBase64.replace(dataUriPrefixRe, "");
+    return base64;
   }
 
-  let filename = Path.basename(filepath);
-  let ext = Path.extname(filepath).toLowerCase();
+  let base64Re = /^[-A-Za-z0-9+/]*={0,3}$/;
+  let ext = Path.extname(filepathOrBase64);
+  ext = ext.toLowerCase();
   if (!ext) {
+    let isBase64 = base64Re.test(filepathOrBase64);
+    if (isBase64) {
+      return filepathOrBase64;
+    }
     throw new Error(
       `'${tplpath}' for '${id}' is not a filepath with a well-known extension, nor in DataURL format`
     );
@@ -135,12 +142,14 @@ async function readBlob(filepath, tplpath, id) {
       );
   }
 
-  let buf = await Fs.readFile(filepath);
-  let blob = buf.toString("base64");
+  let buf = await Fs.readFile(filepathOrBase64);
+  let base64 = buf.toString("base64");
 
   // Ex: data:application/pdf;name=Federal%20EIN.pdf;base64,${einDoc64}
-  let urlFilename = encodeURIComponent(filename);
-  return `data:${mime};name=${urlFilename};base64,${blob}`;
+  //let filename = Path.basename(filepathOrBase64);
+  //let urlFilename = encodeURIComponent(filename);
+  //return `data:${mime};name=${urlFilename};base64,${base64}`;
+  return base64;
 }
 
 main()
