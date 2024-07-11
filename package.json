@@ -1,6 +1,6 @@
 {
   "name": "@paperos/mercury-bank",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "A simple demo of the Mercury API for submitting an Application & Verifying Webhooks",
   "main": "index.js",
   "scripts": {
